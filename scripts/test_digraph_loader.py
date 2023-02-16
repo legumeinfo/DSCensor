@@ -2,7 +2,7 @@
 
 import logging
 
-from directed_graph import DirectedGraphController
+import directed_graph
 
 
 def setup_logging(log_file, log_level, process):
@@ -23,7 +23,7 @@ def setup_logging(log_file, log_level, process):
 
 
 if __name__ == "__main__":
-    my_graph = DirectedGraphController(
+    my_graph = directed_graph.DirectedGraphController(
         setup_logging("./dscensor-digraph.log", "debug", "generate-digraph"),
         dscensor_nodes="./autocontent",
     )
