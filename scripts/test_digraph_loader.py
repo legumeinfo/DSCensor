@@ -2,7 +2,7 @@
 
 import logging
 
-from . import directed_graph
+import directed_graph
 
 
 def setup_logging(log_file, log_level, process):
