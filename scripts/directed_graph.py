@@ -2,27 +2,9 @@
 
 import glob
 import json
-import logging
 import os
 
 import networkx as nx
-
-
-def setup_logging(log_file, log_level, process):
-    """initializes a logger object with a common format"""
-    log_level = getattr(
-        logging, log_level.upper(), logging.INFO
-    )  # set provided or set INFO
-    msg_format = "%(asctime)s|%(name)s|[%(levelname)s]: %(message)s"
-    logging.basicConfig(format=msg_format, datefmt="%m-%d %H:%M", level=log_level)
-    log_handler = logging.FileHandler(log_file, mode="w")
-    formatter = logging.Formatter(msg_format)
-    log_handler.setFormatter(formatter)
-    logger = logging.getLogger(
-        f"{process}"
-    )  # sets what will be printed for the log process
-    logger.addHandler(log_handler)
-    return logger
 
 
 class DirectedGraphController:
@@ -83,19 +65,11 @@ class DirectedGraphController:
         logger = self.logger
         logger.info("Dumping Nodes...")
         my_nodes = {"nodes": list(self.digraph.nodes(data=True))}
-        json.dumps(my_nodes, indent=4)
+        return json.dumps(my_nodes, indent=4)
 
     def dump_edges(self):
         """Dump digraph edges as a list"""
         logger = self.logger
         logger.info("Dumping Edges...")
         my_edges = {"edges": list(self.digraph.edges())}
-        json.dumps(my_edges, indent=4)
-
-
-if __name__ == "__main__":
-    log_level = "debug"
-    logger = setup_logging("./dscensor-digraph.log", log_level, "generate-digraph")
-    my_graph = DirectedGraphController(logger)
-    my_graph.dump_nodes()
-    my_graph.dump_edges()
+        return json.dumps(my_edges, indent=4)
