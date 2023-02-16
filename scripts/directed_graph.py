@@ -1,4 +1,7 @@
-"""Controls the creation of a directed graph using networkx for DSCensor in memory object."""
+"""Controls the creation of a directed graph using networkx.
+
+   populates self.digraph.nodes and self.digraph.edges from dscensor JSON nodes
+"""
 
 import glob
 import json
@@ -96,6 +99,6 @@ if __name__ == "__main__":
     my_graph = DirectedGraphController(
         setup_logging("./dscensor-digraph.log", "debug", "generate-digraph"),
         dscensor_nodes="./autocontent",
-    )
+    )  # test digraph instance with local ./autocontent
     print(my_graph.dump_nodes())
     print(my_graph.dump_edges())
