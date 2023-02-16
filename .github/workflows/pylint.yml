@@ -20,4 +20,4 @@ jobs:
         pip install pylint networkx
     - name: Analysing the code with pylint
       run: |
-        pylint --max-line-length 240 --fail-under=8 ./scripts
+        cd scripts;pylint --max-line-length 240 --fail-under=8 ./*.py
