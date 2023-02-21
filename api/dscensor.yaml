@@ -1,0 +1,82 @@
+openapi: 3.1.0
+info:
+  title: "RESTful API for DSCensor Directed Graph"
+  version: 0.0.1
+paths:
+  /genomes:
+    get:
+      summary: Get list of all genome_main objects
+      responses:
+        "200":
+          description: "SUCCESS"
+          content:
+            application/json:
+              schema:
+                type: list
+                items:
+                  type: object
+                  properties:
+                    filename:
+                      type: string
+                    filetype:
+                      type: string
+                    canonical_type:
+                      type: string
+                    url:
+                      type: string
+                    genus:
+                      type: string
+                    species:
+                      type: string
+                    origin:
+                      type: string
+                    infraspecies:
+                      type: string
+                    derived_from:
+                      type: array
+                      items:
+                        type: string
+                    counts:
+                      type: object
+                    busco:
+                      type: object
+  /genus:
+    get:
+      summary: Get list of all Genus
+      responses:
+        "200":
+          description: "SUCCESS"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+  /species:
+    get:
+      summary: Get list of all species
+      responses:
+        "200":
+          description: "SUCCESS"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+  /species/{genus}:
+    get:
+      summary: Get list of all species for the given Genus
+      parameters:
+      - genus: genus
+        in: path
+        required: true
+      responses:
+        "200":
+          description: "SUCCESS"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
