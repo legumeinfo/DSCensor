@@ -6,6 +6,7 @@ paths:
   /genomes:
     get:
       summary: Get list of all genome_main objects
+      operationId: getGenomes
       responses:
         "200":
           description: "SUCCESS"
@@ -43,6 +44,7 @@ paths:
   /genus:
     get:
       summary: Get list of all Genus
+      operationId: getGenus
       responses:
         "200":
           description: "SUCCESS"
@@ -55,6 +57,7 @@ paths:
   /species:
     get:
       summary: Get list of all species
+      operationId: getSpecies
       responses:
         "200":
           description: "SUCCESS"
@@ -67,6 +70,7 @@ paths:
   /species/{genus}:
     get:
       summary: Get list of all species for the given Genus
+      operationId: get species by genus
       parameters:
       - genus: genus
         in: path
