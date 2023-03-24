@@ -1,3 +1,5 @@
+import logging
+
 from pathlib import Path
 from typing import List, Union
 
@@ -6,6 +8,11 @@ from rororo import setup_openapi, setup_settings
 
 from dscensor import views
 from dscensor.settings import Settings
+from dscensor.api.directed_graph import DirectedGraphController
+
+
+def setup_directed_graph(input_nodes):
+    """takes input_nodes directory and parses input nodes JSON for app"""
 
 
 def create_app(
@@ -44,6 +51,8 @@ def create_app(
         loggers=("aiohttp", "aiohttp_middlewares", "dscensor", "rororo"),
         remove_root_handlers=True,
     )
+
+    app[settings.dscensor_app_key] = DirectedGraphController(logging.getLogger("dscensor"), settings.input_nodes)
 
     # Create the "storage" for the pets
     #    app[settings.pets_app_key] = []

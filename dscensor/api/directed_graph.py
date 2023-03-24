@@ -48,6 +48,8 @@ class DirectedGraphController:
         logger = self.logger
         digraph = self.digraph
         logger.info("Generating directed graph...")
+        if not self.all_objects.items():
+            logger.warning("No Objects Loaded! Check nodes directory!")
         for name, node in self.all_objects.items():
             logger.debug(node)
             if name in digraph:  # already added node as parent
