@@ -1,12 +1,10 @@
 import logging
 
 from aiohttp import web
+from rororo import OperationTableDef
 
-#from petstore.data import NewPet
-#from petstore.shortcuts import get_pet_or_404
-from rororo import openapi_context, OperationTableDef
-from rororo.openapi import get_validated_data, get_validated_parameters
-
+# from rororo import OperationTableDef, openapi_context
+# from rororo.openapi import get_validated_data, get_validated_parameters
 
 logger = logging.getLogger(__name__)
 
@@ -17,11 +15,15 @@ operations = OperationTableDef()
 
 @operations.register("getGenus")
 async def list_genus(request: web.Request) -> web.Response:
-    with openapi_context(request) as context:
-        return web.json_response([request.app["genus"]])
+    genus_list = {}
+    for node in list(request.app["digraph"].digraph.nodes(data=True)):
+        genus_list[node[1]["genus"]] = 1  # data part of node tuple with genus key
+    return web.json_response([genus for genus in genus_list])
 
 
 @operations.register("getSpecies")
-async def list_genus(request: web.Request) -> web.Response:
-    with openapi_context(request) as context:
-        return web.json_response([request.app["species"]])
+async def list_species(request: web.Request) -> web.Response:
+    species_list = {}
+    for node in list(request.app["digraph"].digraph.nodes(data=True)):
+        species_list[node[1]["species"]] = 1  # data part of node tuple with species key
+    return web.json_response([species for species in species_list])
