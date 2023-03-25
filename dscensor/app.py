@@ -10,10 +10,6 @@ from dscensor.api.directed_graph import DirectedGraphController
 from dscensor.settings import Settings
 
 
-def setup_directed_graph(input_nodes):
-    """takes input_nodes directory and parses input nodes JSON for app"""
-
-
 def create_app(
     argv: Union[List[str], None] = None,
     *,
