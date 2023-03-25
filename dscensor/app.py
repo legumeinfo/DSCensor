@@ -1,5 +1,4 @@
 import logging
-
 from pathlib import Path
 from typing import List, Union
 
@@ -7,8 +6,8 @@ from aiohttp import web
 from rororo import setup_openapi, setup_settings
 
 from dscensor import views
-from dscensor.settings import Settings
 from dscensor.api.directed_graph import DirectedGraphController
+from dscensor.settings import Settings
 
 
 def setup_directed_graph(input_nodes):
@@ -34,10 +33,6 @@ def create_app(
     results. The OpenAPI schema will be available at:
     http://localhost:8080/api/openapi.yaml
 
-    To ensure that Swagger UI been able to make requests the development
-    example uses CORS headers allowed for all requests. **Please, avoid
-    enabling CORS headers for all requests at production.**
-
     This app was modeled after https://github.com/playpauseandstop/rororo
     """
     # Instantiate settings
@@ -52,7 +47,9 @@ def create_app(
         remove_root_handlers=True,
     )
 
-    app[settings.dscensor_app_key] = DirectedGraphController(logging.getLogger("dscensor"), settings.input_nodes)
+    app[settings.dscensor_app_key] = DirectedGraphController(
+        logging.getLogger("dscensor"), settings.input_nodes
+    )
 
     # Create the "storage" for the pets
     #    app[settings.pets_app_key] = []

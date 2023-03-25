@@ -82,7 +82,7 @@ class DirectedGraphController:
 
 if __name__ == "__main__":
 
-    def setup_logging(log_file, log_level, process):
+    def setup_logging(log_file, log_level, process):  # should remove this
         """initializes a logger object with a common format"""
         log_level = getattr(
             logging, log_level.upper(), logging.INFO
