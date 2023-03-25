@@ -27,3 +27,12 @@ async def list_species(request: web.Request) -> web.Response:
     for node in list(request.app["digraph"].digraph.nodes(data=True)):
         species_list[node[1]["species"]] = 1  # data part of node tuple with species key
     return web.json_response([species for species in species_list])
+
+
+@operations.register("getGenomes")
+async def list_genomes(request: web.Request) -> web.Response:
+    genomes_main = {}
+    for node in list(request.app["digraph"].digraph.nodes(data=True)):
+        if node[1]["canonical_type"] == "genome_main":
+            genomes_main[node[0]] = node[1]
+    return web.json_response([genomes_main[genome] for genome in genomes_main])
