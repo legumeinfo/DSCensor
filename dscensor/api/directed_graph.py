@@ -34,13 +34,20 @@ class DirectedGraphController:
         ):  # find all json objects in dscensor_nodes directory
             logger.debug(dsnode)
             dsjson = None
+            metadata = {"metadata": {}, "counts": {}, "busco": {}}
             with open(dsnode, encoding="UTF-8") as nopen:
                 dsjson = json.loads(nopen.read())
             logger.debug(dsjson)
+            for k in dsjson:
+                v = dsjson[k]
+                if k == "counts" or k == "busco":
+                    metadata[k] = v
+                    continue
+                metadata["metadata"][k] = v
             name = dsjson["filename"]
             self.all_objects[
                 name
-            ] = dsjson  # add object to self.all_objects for edge lookup later
+            ] = metadata  # add object to self.all_objects for edge lookup later
             logger.debug(self.all_objects[name])
 
     def generate_digraph(self):
@@ -50,20 +57,29 @@ class DirectedGraphController:
         logger.info("Generating directed graph...")
         if not self.all_objects.items():
             logger.warning("No Objects Loaded! Check nodes directory!")
+        parent_count = 0
+        children_count = 0
         for name, node in self.all_objects.items():
             logger.debug(node)
             if name in digraph:  # already added node as parent
                 continue
             digraph.add_node(name, **node)  # add node and **attrs
-            parents = node["derived_from"]
+            parents = node["metadata"]["derived_from"]
             logger.debug(parents)
+            if parents:
+                children_count += 1
             for parent in parents:
                 if not parent:
                     continue
-                parent_node = self.all_objects[parent]
+                parent_node = self.all_objects.get(parent, None)
+                if not parent_node:  # in case parent not found REPORT AND FIX
+                    logger.error(f"No parent for {parent}")
+                    continue
+                parent_count += 1
                 logger.debug(parent_node)
                 digraph.add_node(parent, **parent_node)  # add parent and **attrs
                 digraph.add_edge(name, parent)  # add derived_from edge equivalent
+        logger.info(f"Loaded {parent_count} Parents and {children_count} Children.")
 
     def dump_nodes(self):
         """Dump digraph nodes as a list of dictionaries"""

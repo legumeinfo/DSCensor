@@ -41,6 +41,21 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/Genome"
+  /annotations:
+    get:
+      description: |
+        Returns all of the gene_models_main objects from the digraph.
+      operationId: getGeneModelsMain
+      responses:
+        "200":
+          description: "SUCCESS"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/GeneModelsMain"
+
 components:
   schemas:
     Genus:
@@ -54,6 +69,52 @@ components:
         type: string
 
     Genome:
+      type: object
+      properties:
+        metadata:
+          $ref: "#/components/schemas/CoreObject"
+        counts:
+          type: object
+          properties:
+            contigs:
+              type: integer
+            records:
+              type: integer
+            N50:
+              type: integer
+            allbases:
+              type: integer
+            gapbases:
+              type: integer
+            gaps:
+              type: integer
+        busco:
+          $ref: "#/components/schemas/Busco"
+
+    GeneModelsMain:
+      type: object
+      properties:
+        metadata:
+          $ref: "#/components/schemas/CoreObject"
+        counts:
+          type: object
+          properties:
+            contigs:
+              type: integer
+            records:
+              type: integer
+            N50:
+              type: integer
+            allbases:
+              type: integer
+            gapbases:
+              type: integer
+            gaps:
+              type: integer
+        busco:
+          $ref: "#/components/schemas/Busco"
+
+    CoreObject:
       type: object
       properties:
         filename:
@@ -76,33 +137,19 @@ components:
           type: array
           items:
             type: string
-        counts:
-          type: object
-          properties:
-            contigs:
-              type: integer
-            records:
-              type: integer
-            N50:
-              type: integer
-            allbases:
-              type: integer
-            gapbases:
-              type: integer
-            gaps:
-              type: integer
-        busco:
-          type: object
-          properties:
-            complete_buscos:
-              type: integer
-            single_copy_buscos:
-              type: integer
-            duplicate_buscos:
-              type: integer
-            fragmented_buscos:
-              type: integer
-            missing_buscos:
-              type: integer
-            total_buscos:
-              type: integer
+
+    Busco:
+      type: object
+      properties:
+        complete_buscos:
+          type: integer
+        single_copy_buscos:
+          type: integer
+        duplicate_buscos:
+          type: integer
+        fragmented_buscos:
+          type: integer
+        missing_buscos:
+          type: integer
+        total_buscos:
+          type: integer
