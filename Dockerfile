@@ -4,6 +4,7 @@ FROM python:3.11.1-slim-buster
 RUN apt-get update && \
     apt-get install -y --no-install-recommends build-essential && \
     apt-get install -y --no-install-recommends git-all && \
+    apt-get install -y --no-install-recommends locales && \
     rm -rf /var/lib/apt/lists/*
 
 ADD . /app
@@ -22,6 +23,13 @@ RUN git submodule update --init
 RUN pip3 install --no-cache-dir -r requirements.txt
 RUN pip3 install lis-autocontent
 
+# Set the locale
+RUN sed -i '/en_US.UTF-8/s/^# //g' /etc/locale.gen && \
+    locale-gen
+ENV LANG en_US.UTF-8 
+ENV LANGUAGE en_US:en 
+ENV LC_ALL en_US.UTF-8
+
 #RUN python ./LIS-autocontent/setup.py install
 
 # populate objects for graphDB
@@ -29,4 +37,5 @@ RUN lis-autocontent populate-dscensor --from_github ./datastore-metadata/ --taxa
 
 # install (and implicitly build) the package
 
-ENTRYPOINT ["python", "-m", "aiohttp.web", "dscensor.app:create_app"]
+CMD ["python", "-m", "aiohttp.web", "-H", "0.0.0.0", "dscensor.app:create_app"]
+EXPOSE 8080
