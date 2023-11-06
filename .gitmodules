@@ -1,0 +1,9 @@
+[submodule "datastore-metadata"]
+	path = datastore-metadata
+	url = https://github.com/legumeinfo/datastore-metadata.git
+[submodule "LIS-autocontent"]
+	path = LIS-autocontent
+	url = https://github.com/legumeinfo/LIS-autocontent.git
+[submodule "jekyll-legumeinfo"]
+	path = jekyll-legumeinfo
+	url = https://github.com/legumeinfo/jekyll-legumeinfo.git
